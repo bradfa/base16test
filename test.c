@@ -9,7 +9,7 @@
 #include <time.h>
 #include <ctype.h>
 
-#define MAX_READ_SIZE (100 * 1024 * 1024) /* 100 MiB */
+#define MAX_READ_SIZE (32 * 1024 * 1024) /* 32 MiB */
 
 uint8_t htob(char *in)
 {
