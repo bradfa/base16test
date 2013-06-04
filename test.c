@@ -86,6 +86,7 @@ int main(int argc, char *argv[])
 	start = clock();
 	for (hexi = bini = 0; bini < readbytes; hexi+=2, bini++)
 		memcpy(&hex[hexi], bin2hexlut[binary[bini]], 2);
+	hex[2*readbytes] = '\0';
 	end = clock();
 	printf("bintohlut bin to hex took %d clocks\n", (int)(end-start));
 
