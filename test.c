@@ -11,12 +11,6 @@
 
 #define MAX_READ_SIZE (100 * 1024 * 1024) /* 100 MiB */
 
-int errexit(char *s)
-{
-	printf("%s\n", s);
-	exit(-1);
-}
-
 uint8_t htob(char *in)
 {
 	uint8_t out = 0;
@@ -49,11 +43,15 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	binary = malloc(MAX_READ_SIZE);
-	if (!binary)
-		errexit("Out of memory");
+	if (!binary) {
+		printf("Out of memory!\n");
+		return -ENOMEM;
+	}
 	hex = malloc((2 * MAX_READ_SIZE) + 1);
-	if (!hex)
-		errexit("Out of memory");
+	if (!hex) {
+		printf("Out of memory!");
+		return -ENOMEM;
+	}
 	readbytes = read(bfd, binary, MAX_READ_SIZE);
 	printf("Read %d bytes\n", (int)readbytes);
 
