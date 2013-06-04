@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <errno.h>
 #include <time.h>
+#include <ctype.h>
 
 #define READ_SIZE (10 * 1024 * 1024) /* 10 MiB */
 
@@ -30,9 +31,9 @@ uint8_t htob(char *in)
 	return out;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
-	int bfd, hfd, ret, bini, hexi;
+	int bfd, ret, bini, hexi;
 	clock_t start, end;
 	uint8_t *binary;
 	char *hex;
@@ -53,16 +54,15 @@ int main(int argc, char *argv[])
 	for (hexi = bini = 0; bini < READ_SIZE; hexi+=2, bini++)
 		sprintf(&hex[hexi], "%.2X", binary[bini]);
 	end = clock();
-	printf("sprintf bin to hex took %d clocks\n", end-start);
+	printf("sprintf bin to hex took %d clocks\n", (int)(end-start));
 
 	/* Convert hex string back to binary */
 	start = clock();
 	for (hexi = bini = 0; hexi < (2*READ_SIZE)+1; hexi+=2, bini++)
 		binary[bini] = htob(&hex[hexi]);
 	end = clock();
-	printf("htob hex to bin took %d clocks\n", end-start);
+	printf("htob hex to bin took %d clocks\n", (int)(end-start));
 
 	close(bfd);
-	close(hfd);
 	return 0;
 }
