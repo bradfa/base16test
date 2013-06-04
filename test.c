@@ -9,7 +9,7 @@
 #include <time.h>
 #include <ctype.h>
 
-#define READ_SIZE (10 * 1024 * 1024) /* 10 MiB */
+#define MAX_READ_SIZE (100 * 1024 * 1024) /* 100 MiB */
 
 int errexit(char *s)
 {
@@ -33,7 +33,8 @@ uint8_t htob(char *in)
 
 int main()
 {
-	int bfd, ret, bini, hexi;
+	ssize_t readbytes;
+	int bfd, bini, hexi;
 	clock_t start, end;
 	uint8_t *binary;
 	char *hex;
@@ -41,24 +42,24 @@ int main()
 	bfd = open("./binary.test", O_RDONLY);
 	if (bfd == -1)
 		errexit("Couldn't open binary.test file");
-	binary = malloc(READ_SIZE);
+	binary = malloc(MAX_READ_SIZE);
 	if (!binary)
 		errexit("Out of memory");
-	hex = malloc((2 * READ_SIZE) + 1);
+	hex = malloc((2 * MAX_READ_SIZE) + 1);
 	if (!hex)
 		errexit("Out of memory");
-	ret = read(bfd, binary, READ_SIZE);
-	printf("Read %d bytes\n", ret);
+	readbytes = read(bfd, binary, MAX_READ_SIZE);
+	printf("Read %d bytes\n", (int)readbytes);
 
 	start = clock();
-	for (hexi = bini = 0; bini < READ_SIZE; hexi+=2, bini++)
+	for (hexi = bini = 0; bini < readbytes; hexi+=2, bini++)
 		sprintf(&hex[hexi], "%.2X", binary[bini]);
 	end = clock();
 	printf("sprintf bin to hex took %d clocks\n", (int)(end-start));
 
 	/* Convert hex string back to binary */
 	start = clock();
-	for (hexi = bini = 0; hexi < (2*READ_SIZE)+1; hexi+=2, bini++)
+	for (hexi = bini = 0; hexi < (2*readbytes)+1; hexi+=2, bini++)
 		binary[bini] = htob(&hex[hexi]);
 	end = clock();
 	printf("htob hex to bin took %d clocks\n", (int)(end-start));
