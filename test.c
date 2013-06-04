@@ -31,7 +31,7 @@ uint8_t htob(char *in)
 	return out;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
 	ssize_t readbytes;
 	int bfd, bini, hexi;
@@ -39,9 +39,15 @@ int main()
 	uint8_t *binary;
 	char *hex;
 
-	bfd = open("./binary.test", O_RDONLY);
-	if (bfd == -1)
-		errexit("Couldn't open binary.test file");
+	if (argc != 2) {
+		printf("Usage: %s input.file\n", argv[0]);
+		return -1;
+	}
+	bfd = open(argv[1], O_RDONLY);
+	if (bfd == -1) {
+		printf("Couldn't open %s\n", argv[1]);
+		return -1;
+	}
 	binary = malloc(MAX_READ_SIZE);
 	if (!binary)
 		errexit("Out of memory");
