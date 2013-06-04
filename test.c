@@ -55,13 +55,14 @@ int main(int argc, char *argv[])
 	readbytes = read(bfd, binary, MAX_READ_SIZE);
 	printf("Read %d bytes\n", (int)readbytes);
 
+	/* sprintf() binary to hex test */
 	start = clock();
 	for (hexi = bini = 0; bini < readbytes; hexi+=2, bini++)
 		sprintf(&hex[hexi], "%.2X", binary[bini]);
 	end = clock();
 	printf("sprintf bin to hex took %d clocks\n", (int)(end-start));
 
-	/* Convert hex string back to binary */
+	/* htob() hex to binary test */
 	start = clock();
 	for (hexi = bini = 0; hexi < (2*readbytes)+1; hexi+=2, bini++)
 		binary[bini] = htob(&hex[hexi]);
