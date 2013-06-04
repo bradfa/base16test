@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 	}
 	readbytes = read(bfd, binary, MAX_READ_SIZE);
 	printf("Read %d bytes\n", (int)readbytes);
+	close(bfd);
 
 	/* sprintf() binary to hex test */
 	start = clock();
@@ -69,6 +70,5 @@ int main(int argc, char *argv[])
 	end = clock();
 	printf("htob hex to bin took %d clocks\n", (int)(end-start));
 
-	close(bfd);
 	return 0;
 }
