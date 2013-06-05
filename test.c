@@ -130,21 +130,21 @@ int main(int argc, char *argv[])
 
 	/* htob() hex to binary test */
 	start = clock();
-	for (hexi = bini = 0; hexi < (2*readbytes)+1; hexi+=2, bini++)
+	for (hexi = bini = 0; hexi < 2*readbytes; hexi+=2, bini++)
 		binary[bini] = htob(&hex[hexi]);
 	end = clock();
 	printf("htob hex to bin took %d clocks\n", (int)(end-start));
 
 	/* poorstrtol() hex to binary test */
 	start = clock();
-	for (hexi = bini = 0; hexi < (2*readbytes)+1; hexi+=2, bini++)
+	for (hexi = bini = 0; hexi < 2*readbytes; hexi+=2, bini++)
 		binary[bini] = poorstrtol(&hex[hexi]);
 	end = clock();
 	printf("poorstrtol hex to bin took %d clocks\n", (int)(end-start));
 
 	/* htobinlut() hex to binary test */
 	start = clock();
-	for (hexi = bini = 0; hexi < (2*readbytes)+1; hexi+=2, bini++)
+	for (hexi = bini = 0; hexi < 2*readbytes; hexi+=2, bini++)
 		binary[bini] = htobinlut(&hex[hexi]);
 	end = clock();
 	printf("htobinlut hex to bin took %d clocks\n", (int)(end-start));
