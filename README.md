@@ -36,3 +36,9 @@ If they were simply linear with processing power difference, I'd expect to see
 similar gains for any algorithm changes which is not what's observed (14x vs 10x
 followed by 1.8x vs 3x).  I wonder if a Cortex-A8 with a 32 bit wide memory bus
 would fair better than the BeagleBone's 16 bit wide bus.
+
+After more investigation, it seems `isxdigit()` is quite expensive.  By removing
+calls to `isxdigit()` the speedup becomes more dramatic but at the possible
+expense of encountering error conditions.  Without `isxdigit()` the base16 to
+binary LUT measures a 6x improvement on BeagleBone and a 5x improvement on my
+Intel Core-i7.
