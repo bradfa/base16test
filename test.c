@@ -77,10 +77,6 @@ uint8_t poorstrtol(char *in)
 uint8_t htobinlut(char *in)
 {
 	uint8_t out = 0;
-	if (!isxdigit(in[0]) || !isxdigit(in[1])) {
-		errno = -EINVAL;
-		return 0;
-	}
 	out += hex2binlut[(uint8_t)in[0]] << 4;
 	out += hex2binlut[(uint8_t)in[1]];
 	return out;
